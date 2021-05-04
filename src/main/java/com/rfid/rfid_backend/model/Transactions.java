@@ -1,5 +1,6 @@
 package com.rfid.rfid_backend.model;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,8 +29,13 @@ public class Transactions {
         return id;
     }
 
+    @NotNull
     public Integer card_uuid;
+
+    @NotNull
     public Integer transaction_fare;
+
+    @NotNull
     public Integer new_balance;
 
 }
