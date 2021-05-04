@@ -1,5 +1,6 @@
 package com.rfid.rfid_backend.controller;
 
+import com.rfid.rfid_backend.Exceptions.CardNotFoundException;
 import com.rfid.rfid_backend.model.Card;
 import com.rfid.rfid_backend.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,23 @@ public class CardController {
     public List<Card> getAll(){
         return cardRepository.findAll();
     }
+
+    @GetMapping("/api/cards/checkCard/{card_uuid}")
+    public List<Card> getCardByCard_uuid(@PathVariable String card_uuid){
+        List<Card> cardFound = cardRepository.findByCard_uuid(card_uuid);
+        if(cardFound.isEmpty()){
+            throw new CardNotFoundException(" - card uuid: " + card_uuid);
+        }
+        return cardFound;
+    }
+
     @PostMapping("/api/cards")
     public ResponseEntity<?> create(@RequestBody Card card){
        cardRepository.save(card);
        return (ResponseEntity<?>) ResponseEntity.ok();
     }
+
+
 
 
 }
