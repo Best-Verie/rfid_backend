@@ -12,13 +12,12 @@ import javax.persistence.GenerationType;
 
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
+
 
     public void setId(Integer id) {
         this.id = id;
@@ -37,5 +36,36 @@ public class Transactions {
 
     @NotNull
     public Integer new_balance;
+    public Transactions() {
+    }
 
+    public Transactions(Integer card_uuid, Integer transaction_fare, Integer new_balance) {
+        this.card_uuid = card_uuid;
+        this.transaction_fare = transaction_fare;
+        this.new_balance = new_balance;
+    }
+
+    public Integer getCard_uuid() {
+        return card_uuid;
+    }
+
+    public void setCard_uuid(Integer card_uuid) {
+        this.card_uuid = card_uuid;
+    }
+
+    public Integer getTransaction_fare() {
+        return transaction_fare;
+    }
+
+    public void setTransaction_fare(Integer transaction_fare) {
+        this.transaction_fare = transaction_fare;
+    }
+
+    public Integer getNew_balance() {
+        return new_balance;
+    }
+
+    public void setNew_balance(Integer new_balance) {
+        this.new_balance = new_balance;
+    }
 }
