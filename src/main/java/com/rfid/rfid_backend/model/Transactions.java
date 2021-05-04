@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 
 @Entity
@@ -14,6 +16,7 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 public class Transactions {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
 
     public void setId(Integer id) {
@@ -25,7 +28,7 @@ public class Transactions {
         return id;
     }
 
-    public Integer card_id;
+    public Integer card_uuid;
     public Integer transaction_fare;
     public Integer new_balance;
 

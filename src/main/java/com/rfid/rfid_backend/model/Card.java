@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 
 @Data
@@ -15,17 +15,21 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @Entity
 
+//@Table(name ="rfid_cards")
+
 public class Card {
     @Id
-    public Long card_id;
-    public void setId(Long id) {
-        this.card_id = id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int id;
+    public void setId(int id) {
+        this.id = id;
     }
     @javax.persistence.Id
-    public Long getId() {
-        return card_id;
+    public int getId() {
+        return id;
     }
 
+    public String card_uuid;
     public String owner;
     public Integer current_balance;
 
