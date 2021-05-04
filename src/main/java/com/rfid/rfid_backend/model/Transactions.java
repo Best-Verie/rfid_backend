@@ -1,7 +1,6 @@
 package com.rfid.rfid_backend.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -9,24 +8,25 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.Entity;
 
 
+@Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-
-public class Card {
+public class Transactions {
     @Id
-    public Long card_id;
-    public void setId(Long id) {
-        this.card_id = id;
-    }
-    @javax.persistence.Id
-    public Long getId() {
-        return card_id;
+    public Integer id;
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String owner;
-    public Integer current_balance;
+    @javax.persistence.Id
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer card_id;
+    public Integer transaction_fare;
+    public Integer new_balance;
 
 }
