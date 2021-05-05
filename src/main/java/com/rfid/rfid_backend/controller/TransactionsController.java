@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-//@RequestMapping("/api/transactions")
 public class TransactionsController {
     @Autowired
     private TransactionsRepository transactionsRepository;
@@ -28,7 +27,6 @@ public class TransactionsController {
     @PostMapping("/api/transactions")
     public ResponseEntity<?> create(@RequestBody Transaction transaction){
         String tagId = transaction.getTagId();
-//        CardRepository cardRepository;
         Optional<Card> cardFound = cardRepository.findByTagId(tagId);
 
         Integer transportFare = transaction.getTransactionFare();
@@ -36,10 +34,7 @@ public class TransactionsController {
         Integer currentBalance = cardFound.get().getCurrentBalance();
         Integer newBalanceToSave = currentBalance - transportFare;
         transactionsRepository.save(new Transaction(tagId,transportFare,newBalanceToSave));
-//
-//        String cardOwner = cardFound.get().getOwner();
-//        Card cardToUpdate = new Card(tagId,cardOwner,newBalanceToSave);
-//        cardRepository.updateCardBalance();
+
 
         cardFound.get().setCurrentBalance(newBalanceToSave);
         cardRepository.save(cardFound.get());
