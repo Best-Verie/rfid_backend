@@ -4,18 +4,52 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity
 
 public class Transaction {
     @Id
-
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     public Long id;
+
+    @NotNull
+    public String tagId;
+
+    @NotNull
+    public Integer transportFare;
+
+    @NotNull
+    public Integer newBalance;
+
+    @CreationTimestamp
+    public LocalDateTime transactionDateTime;
+
+    public Transaction() {
+    }
+
+
+    public Transaction(Long id) {
+        this.id = id;
+    }
+
+
+    public Transaction(String tagId, Integer transportFare, Integer newBalance) {
+        this.tagId = tagId;
+        this.transportFare = transportFare;
+        this.newBalance = newBalance;
+    }
+
+    public Transaction(Long id, String tagId, Integer transportFare, Integer newBalance,LocalDateTime transactionDateTime) {
+        this.id = id;
+        this.tagId = tagId;
+        this.transportFare = transportFare;
+        this.newBalance = newBalance;
+    }
 
 
     public void setId(Long id) {
@@ -28,38 +62,6 @@ public class Transaction {
     }
 
 
-    public String tagId;
-
-    @NotNull
-
-    public Integer transactionFare;
-
-    @NotNull
-
-    public Integer newBalance;
-
-    public Transaction() {
-    }
-
-
-    public Transaction(Long id) {
-        this.id = id;
-    }
-
-
-    public Transaction(String tagId, Integer transactionFare, Integer newBalance) {
-        this.tagId = tagId;
-        this.transactionFare = transactionFare;
-        this.newBalance = newBalance;
-    }
-
-    public Transaction(Long id, String tagId, Integer transactionFare, Integer newBalance) {
-        this.id = id;
-        this.tagId = tagId;
-        this.transactionFare = transactionFare;
-        this.newBalance = newBalance;
-    }
-
     public String getTagId() {
         return tagId;
     }
@@ -68,12 +70,12 @@ public class Transaction {
         this.tagId = tagId;
     }
 
-    public Integer getTransactionFare() {
-        return transactionFare;
+    public Integer getTransportFare() {
+        return transportFare;
     }
 
-    public void setTransactionFare(Integer transactionFare) {
-        this.transactionFare = transactionFare;
+    public void setTransportFare(Integer transportFare) {
+        this.transportFare = transportFare;
     }
 
     public Integer setNewBalance() {

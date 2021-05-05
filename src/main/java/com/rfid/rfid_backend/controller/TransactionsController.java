@@ -1,5 +1,6 @@
 package com.rfid.rfid_backend.controller;
 
+import com.rfid.rfid_backend.Exceptions.EnoughMoneyNotFoundException;
 import com.rfid.rfid_backend.model.Card;
 import com.rfid.rfid_backend.model.Transaction;
 import com.rfid.rfid_backend.repository.CardRepository;
@@ -29,9 +30,14 @@ public class TransactionsController {
         String tagId = transaction.getTagId();
         Optional<Card> cardFound = cardRepository.findByTagId(tagId);
 
-        Integer transportFare = transaction.getTransactionFare();
+        Integer transportFare = transaction.getTransportFare();
 
         Integer currentBalance = cardFound.get().getCurrentBalance();
+
+        if(transportFare>currentBalance){
+            throw new EnoughMoneyNotFoundException("-- Balance not enough!");
+        }
+
         Integer newBalanceToSave = currentBalance - transportFare;
         transactionsRepository.save(new Transaction(tagId,transportFare,newBalanceToSave));
 
@@ -41,13 +47,16 @@ public class TransactionsController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/api/transactions/{id}")
-    public Optional<Transaction> findTransaction(@PathVariable Long id){
-        return transactionsRepository.findById(id);
-    }
     @GetMapping("/api/transactions/getCardInfo/{tagId}")
     public Transaction getCardInfo(@PathVariable String tagId){
         return transactionsRepository.findByTagId(tagId);
     }
+
+    @PostMapping("/api/transactions/{id}")
+    public Optional<Transaction> findTransaction(@PathVariable Long id){
+        return transactionsRepository.findById(id);
+    }
+
+
 
 }

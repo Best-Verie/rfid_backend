@@ -46,7 +46,7 @@ public class CardController {
     public Optional<Card> getCardByTagId(@PathVariable String tagId){
         Optional<Card> cardFound = cardRepository.findByTagId(tagId);
         if(!cardFound.isEmpty()){
-            throw new CardNotFoundException(" - card : " + tagId);
+            throw new CardNotFoundException(" - card : " + tagId +" Not found!");
         }
         return cardFound;
     }
