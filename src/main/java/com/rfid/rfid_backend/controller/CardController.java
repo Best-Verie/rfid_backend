@@ -10,6 +10,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+//import javax.validation.Valid;
 
 
 @RestController
@@ -23,19 +25,40 @@ public class CardController {
         return cardRepository.findAll();
     }
 
-//    @GetMapping("/api/cards/checkCard/{owner}")
-//    public List<Card> getCardByCard_uuid(@PathVariable String owner){
-//        List<Card> cardFound = cardRepository.findCardByOwner(owner);
-//        if(cardFound.isEmpty()){
-//            throw new CardNotFoundException(" - card owner: " + owner);
-//        }
-//        return cardFound;
-//    }
-
     @PostMapping("/api/cards")
-    public ResponseEntity<?> create(@RequestBody Card card){
-       cardRepository.save(card);
-       return (ResponseEntity<?>) ResponseEntity.ok();
+    public Card create(@RequestBody Card card){
+        return cardRepository.save(card);
+//        return (ResponseEntity<?>) ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/api/cards/updateCard/{tagId}")
+    public Card updateCard(@PathVariable String tagId, @RequestBody Card cardToUpdate){
+        Optional<Card> cardFound = cardRepository.findByTagId(tagId);
+
+        if(!cardFound.isPresent())
+            throw new CardNotFoundException(" -- card no : "+tagId);
+
+        cardToUpdate.setTagId(cardFound.get().getTagId());
+
+        return cardRepository.save(cardToUpdate);
+    }
+
+    @GetMapping("/api/cards/checkCard/{tagId}")
+    public Optional<Card> getCardByTagId(@PathVariable String tagId){
+        Optional<Card> cardFound = cardRepository.findByTagId(tagId);
+        if(!cardFound.isEmpty()){
+            throw new CardNotFoundException(" - card : " + tagId);
+        }
+        return cardFound;
+    }
+
+    @DeleteMapping("/api/cards/deleteCard/{id}")
+    public ResponseEntity<?> deleteExistingCard(@PathVariable String tagId){
+        Optional<Card> cardFound = cardRepository.findByTagId(tagId);
+        if(!cardFound.isPresent())
+            throw new CardNotFoundException(" -- card  : "+tagId);
+        cardRepository.deleteByTagId(tagId);
+        return ResponseEntity.ok().build();
     }
 
 

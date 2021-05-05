@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -27,8 +24,7 @@ public class Transactions {
         return id;
     }
 
-    @NotNull
-    public Long tagId;
+    public String tagId;
 
     @NotNull
     public Integer transactionFare;
@@ -42,24 +38,24 @@ public class Transactions {
         this.id = id;
     }
 
-    public Transactions(Long tagId, Integer transactionFare, Integer newBalance) {
+    public Transactions(String tagId, Integer transactionFare, Integer newBalance) {
         this.tagId = tagId;
         this.transactionFare = transactionFare;
         this.newBalance = newBalance;
     }
 
-    public Transactions(Long id, Long tagId, Integer transactionFare, Integer newBalance) {
+    public Transactions(Long id, String tagId, Integer transactionFare, Integer newBalance) {
         this.id = id;
         this.tagId = tagId;
         this.transactionFare = transactionFare;
         this.newBalance = newBalance;
     }
 
-    public Long getTagId() {
+    public String getTagId() {
         return tagId;
     }
 
-    public void setTagId(Long tagId) {
+    public void setTagId(String tagId) {
         this.tagId = tagId;
     }
 

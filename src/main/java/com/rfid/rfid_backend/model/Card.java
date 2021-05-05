@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.UUID;
+
 
 
 //@Data
@@ -16,12 +18,10 @@ import javax.persistence.Id;
 //@RequiredArgsConstructor
 @Entity
 public class Card {
+     //I wanna generate it using uuid class
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
-
-    @NotNull
-    public Long tagId;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    public String tagId = UUID.randomUUID().toString();
 
     @NotNull
     public String owner;
@@ -31,28 +31,26 @@ public class Card {
 
     protected Card(){}
 
-    public Card(Long id) {
-        this.id = id;
+    public Card(String tagId) {
+        this.tagId = tagId;
     }
 
-    public Card(Long tagId, String owner, Integer currentBalance) {
+    public Card(String owner, Integer currentBalance) {
+        this.owner = owner;
+        this.currentBalance = currentBalance;
+    }
+
+    public Card(String tagId, String owner, Integer currentBalance) {
         this.tagId = tagId;
         this.owner = owner;
         this.currentBalance = currentBalance;
     }
 
-    public Card(Long id, Long tagId, String owner, Integer currentBalance) {
-        this.id = id;
-        this.tagId = tagId;
-        this.owner = owner;
-        this.currentBalance = currentBalance;
-    }
-
-    public Long getTagId() {
+    public String getTagId() {
         return tagId;
     }
 
-    public void setTagId(Long tagId) {
+    public void setTagId(String tagId) {
         this.tagId = tagId;
     }
 
@@ -72,12 +70,4 @@ public class Card {
         this.currentBalance = currentBalance;
     }
 
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }
