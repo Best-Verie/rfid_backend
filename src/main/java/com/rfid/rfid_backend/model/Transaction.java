@@ -10,9 +10,11 @@ import javax.persistence.*;
 
 @Entity
 
-public class Transactions {
+public class Transaction {
     @Id
+
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     public Long id;
 
 
@@ -20,31 +22,38 @@ public class Transactions {
         this.id = id;
     }
 
+
     public Long getId() {
         return id;
     }
 
+
     public String tagId;
 
     @NotNull
+
     public Integer transactionFare;
 
     @NotNull
+
     public Integer newBalance;
-    public Transactions() {
+
+    public Transaction() {
     }
 
-    public Transactions(Long id) {
+
+    public Transaction(Long id) {
         this.id = id;
     }
 
-    public Transactions(String tagId, Integer transactionFare, Integer newBalance) {
+
+    public Transaction(String tagId, Integer transactionFare, Integer newBalance) {
         this.tagId = tagId;
         this.transactionFare = transactionFare;
         this.newBalance = newBalance;
     }
 
-    public Transactions(Long id, String tagId, Integer transactionFare, Integer newBalance) {
+    public Transaction(Long id, String tagId, Integer transactionFare, Integer newBalance) {
         this.id = id;
         this.tagId = tagId;
         this.transactionFare = transactionFare;

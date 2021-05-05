@@ -13,4 +13,8 @@ public interface CardRepository extends JpaRepository <Card , String> {
 
     Optional<Card> deleteByTagId(String tagId);
 //    List<Card> findCardByOwner(String owner);
+
+//    Integer getCurrentBalance(String tagId);
+
+//    Card updateCardBalance(String tagId);
 }

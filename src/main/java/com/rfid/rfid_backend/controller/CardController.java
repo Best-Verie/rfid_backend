@@ -28,7 +28,6 @@ public class CardController {
     @PostMapping("/api/cards")
     public Card create(@RequestBody Card card){
         return cardRepository.save(card);
-//        return (ResponseEntity<?>) ResponseEntity.ok().build();
     }
 
     @PostMapping("/api/cards/updateCard/{tagId}")
@@ -53,12 +52,13 @@ public class CardController {
     }
 
     @DeleteMapping("/api/cards/deleteCard/{id}")
-    public ResponseEntity<?> deleteExistingCard(@PathVariable String tagId){
+    public boolean deleteExistingCard(@PathVariable String tagId){
         Optional<Card> cardFound = cardRepository.findByTagId(tagId);
+
         if(!cardFound.isPresent())
             throw new CardNotFoundException(" -- card  : "+tagId);
         cardRepository.deleteByTagId(tagId);
-        return ResponseEntity.ok().build();
+        return true;
     }
 
 

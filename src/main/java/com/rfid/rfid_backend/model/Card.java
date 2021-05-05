@@ -40,6 +40,11 @@ public class Card {
         this.currentBalance = currentBalance;
     }
 
+//    public Card(String tagId, Integer currentBalance) {
+//        this.tagId = tagId;
+//        this.currentBalance = currentBalance;
+//    }
+
     public Card(String tagId, String owner, Integer currentBalance) {
         this.tagId = tagId;
         this.owner = owner;
