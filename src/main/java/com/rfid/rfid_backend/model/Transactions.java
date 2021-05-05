@@ -4,11 +4,11 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 
 @Entity
@@ -16,56 +16,66 @@ import javax.persistence.GenerationType;
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer id;
+    public Long id;
 
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    @javax.persistence.Id
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @NotNull
-    public Integer card_uuid;
+    public Long tagId;
 
     @NotNull
-    public Integer transaction_fare;
+    public Integer transactionFare;
 
     @NotNull
-    public Integer new_balance;
+    public Integer newBalance;
     public Transactions() {
     }
 
-    public Transactions(Integer card_uuid, Integer transaction_fare, Integer new_balance) {
-        this.card_uuid = card_uuid;
-        this.transaction_fare = transaction_fare;
-        this.new_balance = new_balance;
+    public Transactions(Long id) {
+        this.id = id;
     }
 
-    public Integer getCard_uuid() {
-        return card_uuid;
+    public Transactions(Long tagId, Integer transactionFare, Integer newBalance) {
+        this.tagId = tagId;
+        this.transactionFare = transactionFare;
+        this.newBalance = newBalance;
     }
 
-    public void setCard_uuid(Integer card_uuid) {
-        this.card_uuid = card_uuid;
+    public Transactions(Long id, Long tagId, Integer transactionFare, Integer newBalance) {
+        this.id = id;
+        this.tagId = tagId;
+        this.transactionFare = transactionFare;
+        this.newBalance = newBalance;
     }
 
-    public Integer getTransaction_fare() {
-        return transaction_fare;
+    public Long getTagId() {
+        return tagId;
     }
 
-    public void setTransaction_fare(Integer transaction_fare) {
-        this.transaction_fare = transaction_fare;
+    public void setTagId(Long tagId) {
+        this.tagId = tagId;
     }
 
-    public Integer getNew_balance() {
-        return new_balance;
+    public Integer getTransactionFare() {
+        return transactionFare;
     }
 
-    public void setNew_balance(Integer new_balance) {
-        this.new_balance = new_balance;
+    public void setTransactionFare(Integer transactionFare) {
+        this.transactionFare = transactionFare;
+    }
+
+    public Integer setNewBalance() {
+        return newBalance;
+    }
+
+    public void setNewBalance(Integer newBalance) {
+        this.newBalance = newBalance;
     }
 }

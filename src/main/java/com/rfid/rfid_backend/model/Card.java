@@ -20,32 +20,40 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-
     @NotNull
-    public String card_uuid;
+    public Long tagId;
 
     @NotNull
     public String owner;
 
     @NotNull
-    public Integer current_balance;
-
+    public Integer currentBalance;
 
     protected Card(){}
 
-    public Card(String card_uuid, String owner, Integer current_balance) {
-        this.card_uuid = card_uuid;
+    public Card(Long id) {
+        this.id = id;
+    }
+
+    public Card(Long tagId, String owner, Integer currentBalance) {
+        this.tagId = tagId;
         this.owner = owner;
-        this.current_balance = current_balance;
+        this.currentBalance = currentBalance;
     }
 
-
-    public String getCard_uuid() {
-        return card_uuid;
+    public Card(Long id, Long tagId, String owner, Integer currentBalance) {
+        this.id = id;
+        this.tagId = tagId;
+        this.owner = owner;
+        this.currentBalance = currentBalance;
     }
 
-    public void setCard_uuid(String card_uuid) {
-        this.card_uuid = card_uuid;
+    public Long getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Long tagId) {
+        this.tagId = tagId;
     }
 
     public String getOwner() {
@@ -56,12 +64,12 @@ public class Card {
         this.owner = owner;
     }
 
-    public Integer getCurrent_balance() {
-        return current_balance;
+    public Integer getCurrentBalance() {
+        return currentBalance;
     }
 
-    public void setCurrent_balance(Integer current_balance) {
-        this.current_balance = current_balance;
+    public void setCurrentBalance(Integer currentBalance) {
+        this.currentBalance = currentBalance;
     }
 
 

@@ -23,14 +23,14 @@ public class CardController {
         return cardRepository.findAll();
     }
 
-    @GetMapping("/api/cards/checkCard/{card_uuid}")
-    public List<Card> getCardByCard_uuid(@PathVariable String card_uuid){
-        List<Card> cardFound = cardRepository.findByCard_uuid(card_uuid);
-        if(cardFound.isEmpty()){
-            throw new CardNotFoundException(" - card uuid: " + card_uuid);
-        }
-        return cardFound;
-    }
+//    @GetMapping("/api/cards/checkCard/{owner}")
+//    public List<Card> getCardByCard_uuid(@PathVariable String owner){
+//        List<Card> cardFound = cardRepository.findCardByOwner(owner);
+//        if(cardFound.isEmpty()){
+//            throw new CardNotFoundException(" - card owner: " + owner);
+//        }
+//        return cardFound;
+//    }
 
     @PostMapping("/api/cards")
     public ResponseEntity<?> create(@RequestBody Card card){
