@@ -1,6 +1,7 @@
 package com.rfid.rfid_backend.controller;
 
 import com.rfid.rfid_backend.Exceptions.EnoughMoneyNotFoundException;
+import com.rfid.rfid_backend.dto.TransactionDTO;
 import com.rfid.rfid_backend.model.Card;
 import com.rfid.rfid_backend.model.Transaction;
 import com.rfid.rfid_backend.repository.CardRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,36 +22,70 @@ public class TransactionsController {
     @Autowired
     private CardRepository cardRepository;
 
+
     @GetMapping("/api/transactions")
     public List<Transaction> getAll(){
         return transactionsRepository.findAll();
     }
 
     @PostMapping("/api/transactions")
-    public ResponseEntity<?> create(@RequestBody Transaction transaction){
-        String tagId = transaction.getTagId();
+    public ResponseEntity<Transaction> create(@RequestBody TransactionDTO transactionDTO){
+        String tagId = transactionDTO.getTagId();
         Optional<Card> cardFound = cardRepository.findByTagId(tagId);
 
-        Integer transportFare = transaction.getTransportFare();
 
-        Integer currentBalance = cardFound.get().getCurrentBalance();
+        Integer transportFare = transactionDTO.getTransportFare();
 
-        if(transportFare>currentBalance){
-            throw new EnoughMoneyNotFoundException("-- Balance not enough!");
+
+        if(cardFound.isEmpty()){
+            Card card = cardRepository.save(new Card(tagId, 500));
+
+            if(transportFare > card.getBalance()){
+                throw new EnoughMoneyNotFoundException("-- Balance not enough!");
+            }
+
+            Integer newBalanceToSave = card.getBalance() - transportFare;
+
+            Transaction transaction = new Transaction();
+            transaction.setCard(card);
+            transaction.setTransportFare(transportFare);
+
+            cardRepository.save(new Card(tagId,newBalanceToSave));
+            return ResponseEntity.ok(transactionsRepository.save(transaction));
+
         }
 
-        Integer newBalanceToSave = currentBalance - transportFare;
-        transactionsRepository.save(new Transaction(tagId,transportFare,newBalanceToSave));
+        else {
+
+            Integer currentBalance = cardFound.get().getBalance();
+
+            if(transportFare > currentBalance){
+                throw new EnoughMoneyNotFoundException("-- Balance not enough!");
+            }
+
+            Integer newBalanceToSave = currentBalance - transportFare;
 
 
-        cardFound.get().setCurrentBalance(newBalanceToSave);
-        cardRepository.save(cardFound.get());
-        return ResponseEntity.ok().build();
+            Transaction transaction = new Transaction();
+            transaction.setCard(cardFound.get());
+            transaction.setTransportFare(transportFare);
+
+            Transaction saved = transactionsRepository.save(transaction);
+
+            cardFound.get().setBalance(newBalanceToSave);
+            cardRepository.save(cardFound.get());
+
+            return ResponseEntity.ok(saved);
+
+        }
+
+
+
     }
 
-    @GetMapping("/api/transactions/getCardInfo/{tagId}")
-    public Transaction getCardInfo(@PathVariable String tagId){
-        return transactionsRepository.findByTagId(tagId);
+    @GetMapping("/api/transactions/getCardInfo/{cardId}")
+    public Transaction getCardInfo(@PathVariable Card cardId){
+        return transactionsRepository.findByCard(cardId);
     }
 
     @PostMapping("/api/transactions/{id}")

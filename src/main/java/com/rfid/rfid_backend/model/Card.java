@@ -1,53 +1,49 @@
 package com.rfid.rfid_backend.model;
 
 import com.sun.istack.NotNull;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
-import javax.persistence.*;
-import java.util.Date;
-import java.util.UUID;
-//import javax.validation.Valid;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-
-
-//@Data
-//@Builder
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@RequiredArgsConstructor
 @Entity
 public class Card {
-     //I wanna generate it using uuid class
     @Id
-    public String tagId = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long id;
 
     @NotNull
-    public String owner;
+    public String tagId;
 
     @NotNull
-//    @Min(0)
-    public Integer currentBalance;
+    public Integer balance;
 
-    @CreationTimestamp
-    private Date createdOn;
-
-    protected Card(){}
-
-    public Card(String tagId) {
-        this.tagId = tagId;
+    public Card() {
     }
 
-    public Card(String owner, Integer currentBalance) {
-        this.owner = owner;
-        this.currentBalance = currentBalance;
+    public Card(Long id) {
+        this.id = id;
     }
 
-    public Card(String tagId, String owner, Integer currentBalance, Date createdOn) {
+    public Card(String tagId, Integer balance) {
         this.tagId = tagId;
-        this.owner = owner;
-        this.currentBalance = currentBalance;
-        this.createdOn = createdOn;
+        this.balance = balance;
+    }
+
+    public Card(Long id, String tagId, Integer balance) {
+        this.id = id;
+        this.tagId = tagId;
+        this.balance = balance;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTagId() {
@@ -58,28 +54,11 @@ public class Card {
         this.tagId = tagId;
     }
 
-    public String getOwner() {
-        return owner;
+    public Integer getBalance() {
+        return balance;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public Integer getCurrentBalance() {
-        return currentBalance;
-    }
-
-    public void setCurrentBalance(Integer currentBalance) {
-        this.currentBalance = currentBalance;
-    }
-
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 }
