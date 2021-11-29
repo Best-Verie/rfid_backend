@@ -2,6 +2,7 @@ package com.rfid.rfid_backend.controller;
 
 import com.rfid.rfid_backend.Exceptions.CardNotFoundException;
 import com.rfid.rfid_backend.Exceptions.EnoughMoneyNotFoundException;
+import com.rfid.rfid_backend.Service.CardService;
 import com.rfid.rfid_backend.model.Card;
 import com.rfid.rfid_backend.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,24 +15,21 @@ import java.util.Optional;
 @RestController
 public class CardController {
     @Autowired
-    private CardRepository cardRepository;
+    private CardService cardService;
 
     @GetMapping("/api/cards")
     public List<Card> getAll(){
-        return cardRepository.findAll();
+        return cardService.getAll();
     }
 
     @PostMapping("/api/cards")
-    public Card create(@RequestBody Card card){
-        return cardRepository.save(card);
+    public ResponseEntity<?> create(@RequestBody Card card){
+        return cardService.saveCard(card);
     }
+
     @GetMapping("/api/cards/checkCard/{tagId}")
     public Optional<Card> getCardByTagId(@PathVariable String tagId){
-        Optional<Card> cardFound = cardRepository.findByTagId(tagId);
-        if(!cardFound.isEmpty()){
-            throw new CardNotFoundException(" - card : " + tagId +" Not found!");
-        }
-        return cardFound;
+        return cardService.getCardByTagId(tagId);
     }
 
 }
