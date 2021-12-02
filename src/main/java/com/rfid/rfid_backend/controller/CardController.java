@@ -1,10 +1,8 @@
 package com.rfid.rfid_backend.controller;
 
-import com.rfid.rfid_backend.Exceptions.CardNotFoundException;
-import com.rfid.rfid_backend.Exceptions.EnoughMoneyNotFoundException;
-import com.rfid.rfid_backend.Service.CardService;
+import com.rfid.rfid_backend.Services.CardService;
+import com.rfid.rfid_backend.dto.UpdateBalanceDTO;
 import com.rfid.rfid_backend.model.Card;
-import com.rfid.rfid_backend.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +23,11 @@ public class CardController {
     @PostMapping("/api/cards")
     public ResponseEntity<?> create(@RequestBody Card card){
         return cardService.saveCard(card);
+    }
+
+    @PutMapping("/api/cards/updateBalance/{tagId}")
+    public ResponseEntity<?> updateBalance(@PathVariable String tagId, @RequestBody UpdateBalanceDTO dto){
+        return cardService.changeBalance(tagId, dto.getNewBalance());
     }
 
     @GetMapping("/api/cards/checkCard/{tagId}")

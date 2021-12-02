@@ -1,4 +1,4 @@
-package com.rfid.rfid_backend.Service;
+package com.rfid.rfid_backend.Services;
 
 import com.rfid.rfid_backend.Exceptions.CardNotFoundException;
 import com.rfid.rfid_backend.Utils.APIResponse;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CardService {
@@ -23,13 +24,27 @@ public class CardService {
 
     public Optional<Card> getCardByTagId(String tagId){
         Optional<Card> cardFound = cardRepository.findByTagId(tagId);
-        if(!cardFound.isEmpty()){
+        if(!cardFound.isPresent()){
             throw new CardNotFoundException(" - card : " + tagId +" Not found!");
         }
         return cardFound;
     }
 
+    public ResponseEntity<?> changeBalance(String tagId, Integer newBalance){
+        Optional<Card> cardFound = cardRepository.findByTagId(tagId);
+        if(!cardFound.isPresent()){
+            throw new CardNotFoundException(" - card : " + tagId +" Not found!");
+        }
+
+        Card card = cardFound.get();
+
+        card.setBalance(newBalance);
+        cardRepository.save(card);
+        return ResponseEntity.status(HttpStatus.CREATED).body(card);
+    }
     public ResponseEntity<?> saveCard(Card card){
+        card.setTagId(UUID.randomUUID().toString().replace("-", ""));
+
         Optional<Card> cardFound = cardRepository.findByTagId(card.getTagId());
         System.out.println(cardFound);
 

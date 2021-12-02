@@ -1,4 +1,4 @@
-package com.rfid.rfid_backend.Service;
+package com.rfid.rfid_backend.Services;
 
 import com.rfid.rfid_backend.Exceptions.EnoughMoneyNotFoundException;
 import com.rfid.rfid_backend.dto.TransactionDTO;
